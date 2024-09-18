@@ -1,12 +1,30 @@
-spring:
-  datasource:
-    url: <DATABASE_URL>
-    username: <DATABASE_NAME>
-    password: <DATABASE_PASSWORD>
-    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port:
 
+info:
+  app:
+    name: RealTimeMonitoring
+    description: API para consulta dos dados referente IOTs e registro de sinistros
+    version: 1.0.0
+
+spring:
+  application:
+    name: RealTimeMonitoring
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:
   jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
     show-sql: false
+    hibernate:
+      ddl-auto: none
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+api:
+  security:
+    token_secret:
