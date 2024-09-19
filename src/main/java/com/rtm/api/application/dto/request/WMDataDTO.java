@@ -1,12 +1,12 @@
 package com.rtm.api.application.dto.request;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 public record WMDataDTO(String id,
-                        String vendorId,
-                        String productId,
+                        String vendorid,
+                        String productid,
                         String latitude,
                         String longitude,
                         String value,
-                        String dtInsert) {
+                        String dateinsert) {
 }

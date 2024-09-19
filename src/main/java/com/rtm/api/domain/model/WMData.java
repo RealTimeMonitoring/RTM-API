@@ -22,8 +22,8 @@ public class WMData
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private Long vendorId;
-    private Long productId;
+    private String vendorId;
+    private String productId;
     private String latitude;
     private String longitude;
     private String value;
