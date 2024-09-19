@@ -8,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class RealTimeMonitoringApplication
 {
-    
     public static void main( String[] args )
     {
         SpringApplication.run(RealTimeMonitoringApplication.class, args);
