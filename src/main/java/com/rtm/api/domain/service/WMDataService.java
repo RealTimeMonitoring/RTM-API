@@ -3,6 +3,7 @@ package com.rtm.api.domain.service;
 import com.rtm.api.application.dto.request.WMDataDTO;
 import com.rtm.api.domain.mapper.WMDataMapper;
 import com.rtm.api.domain.model.WMData;
+import com.rtm.api.infra.repository.WMDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -21,6 +22,7 @@ public class WMDataService
     
     private final WMDataMapper wmDataMapper = Mappers.getMapper( WMDataMapper.class );
     private final RestTemplate restTemplate;
+    private final WMDataRepository wMDataRepository;
     
     public String syncDB() 
     {
@@ -28,7 +30,8 @@ public class WMDataService
         
         List<WMData> values = Arrays.stream(resp.getBody()).map( wmDataMapper::dtoToModel).toList();
         
-        values.forEach(System.out::println);
+        wMDataRepository.saveAll( values );
+        
         return "Dados sincronizados!";
     }
 }
