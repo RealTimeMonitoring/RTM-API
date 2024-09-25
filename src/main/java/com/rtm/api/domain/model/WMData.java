@@ -1,5 +1,6 @@
 package com.rtm.api.domain.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class WMData
     private String productId;
     private String latitude;
     private String longitude;
+    @Column(columnDefinition = "TEXT")
     private String value;
     private LocalDateTime dtInsert;
 }

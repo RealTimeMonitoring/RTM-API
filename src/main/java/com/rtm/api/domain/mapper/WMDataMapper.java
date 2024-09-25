@@ -11,6 +11,6 @@ public interface WMDataMapper
 {
     @Mapping(source = "vendorid", target = "vendorId")
     @Mapping(source = "productid", target = "productId")
-    @Mapping(source = "dateinsert", target = "dtInsert")
+    @Mapping(source = "dateinsert", target = "dtInsert", dateFormat = "yyyy-MM-dd HH:mm:ss")
     WMData dtoToModel(WMDataDTO dto);
 }

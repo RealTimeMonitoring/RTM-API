@@ -1,5 +1,6 @@
 package com.rtm.api.domain.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class WMCategory
 	private Long id;
 
 	private Long productId;
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	private String type;
 	private String example;
