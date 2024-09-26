@@ -16,8 +16,8 @@ public class WMCategoryController
 	private final WMCategoryService service;
 
 	@Override
-	public List<WMCategory> getCategory()
+	public String syncCategories()
 	{
-		return service.getCategories();
+		return service.sync();
 	}
 }

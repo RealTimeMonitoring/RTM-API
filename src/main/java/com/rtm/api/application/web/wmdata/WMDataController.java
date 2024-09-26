@@ -11,8 +11,8 @@ public class WMDataController implements WMDataApi
     private final WMDataService wmDataService;
     
     @Override
-    public String syncDB() 
+    public String syncData() 
     {
-        return wmDataService.syncDB();    
+        return wmDataService.sync();    
     }
 }

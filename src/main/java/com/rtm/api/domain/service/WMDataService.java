@@ -1,22 +1,16 @@
 package com.rtm.api.domain.service;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.rtm.api.application.dto.request.WMCategoryDTO;
 import com.rtm.api.application.dto.request.WMDataDTO;
-import com.rtm.api.domain.mapper.WMCategoryMapper;
 import com.rtm.api.domain.mapper.WMDataMapper;
-import com.rtm.api.domain.model.WMCategory;
 import com.rtm.api.domain.model.WMData;
-import com.rtm.api.infra.repository.WMCategoryRepository;
 import com.rtm.api.infra.repository.WMDataRepository;
+import com.rtm.api.infra.util.WMUrlUtilities;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,36 +18,60 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WMDataService 
 {
-    public static String BASE_WM_URL = "http://177.44.248.13:8080";
-    
     private final WMDataMapper wmDataMapper = Mappers.getMapper( WMDataMapper.class );
-    private final WMCategoryMapper wmCategoryMapper = Mappers.getMapper( WMCategoryMapper.class );
+    
 
     private final RestTemplate restTemplate;
     private final WMDataRepository wMDataRepository;
-    private final WMCategoryRepository wmCategoryRepository;
+    private final OffsetService offsetService;
     
-    public String syncDB() 
+    public String sync() 
     {
-        ResponseEntity<WMDataDTO[]> resp = restTemplate.getForEntity( BASE_WM_URL + "/WaterManager?op=SELECT&FORMAT=JSON", WMDataDTO[].class );
+        int offset = offsetService.getLastOffSet();
+        boolean hasData = true;
         
-        List<WMData> values = Arrays.stream(resp.getBody()).map( wmDataMapper::dtoToModel).toList();
-        
-        wMDataRepository.saveAll( values );
-
-
-        // CATEGORIES
-        ResponseEntity<String> categoriesJson = restTemplate.getForEntity( "http://177.44.248.13:8080/WaterManager/productID.jsp?FORMAT=JSON", String.class );
-
-        if ( categoriesJson.hasBody() )
+        try 
         {
-            ArrayList<WMCategoryDTO> categoryDTOS = new Gson().fromJson( categoriesJson.getBody().replace( "\\", "\\\\" ).trim(), TypeToken.getParameterized( ArrayList.class, WMCategoryDTO.class ).getType() );
-
-            List<WMCategory> categories = categoryDTOS.stream().map( wmCategoryMapper::dtoToModel ).toList();
-
-            wmCategoryRepository.saveAll( categories );
+            while (hasData)
+            {
+                String url = WMUrlUtilities.BASE_WM_URL + "?" + String.format( WMUrlUtilities.SELECT, offset );
+                ResponseEntity<WMDataDTO[]> resp = restTemplate.getForEntity( url, WMDataDTO[].class );
+                List<WMData> values = Arrays.stream( resp.getBody() ).map( wmDataMapper::dtoToModel).toList();
+                
+                if ( values != null && !values.isEmpty() )
+                {
+                    wMDataRepository.saveAll( values );
+                    
+                    if ( values.size() == WMUrlUtilities.LIMIT )
+                    {
+                        offset += WMUrlUtilities.LIMIT;
+                        
+                        offsetService.saveLastOffset( offset );
+                    }
+                    
+                    else
+                    {
+                        hasData = false;
+                    }
+                }
+                
+                else
+                {
+                    hasData = false;
+                }
+            }
+            
+            return "Dados sincronizados!";
         }
         
-        return "Dados sincronizados!";
+        catch ( Exception e ) 
+        {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public List<WMData> getValues()
+    {
+        return wMDataRepository.findAll();
     }
 }

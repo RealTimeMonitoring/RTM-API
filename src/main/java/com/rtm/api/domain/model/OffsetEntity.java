@@ -1,6 +1,5 @@
 package com.rtm.api.domain.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,24 +9,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class WMData 
+public class OffsetEntity 
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String vendorId;
-    private String productId;
-    private String latitude;
-    private String longitude;
-    @Column(columnDefinition = "TEXT")
-    private String value;
-    private LocalDateTime dtInsert;
+    private int offset;
+    
+    public OffsetEntity( int offset )
+    {
+        this.offset = offset;
+    }
 }

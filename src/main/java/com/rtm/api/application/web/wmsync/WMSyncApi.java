@@ -1,17 +1,14 @@
-package com.rtm.api.application.web.wmcategory;
+package com.rtm.api.application.web.wmsync;
 
-import com.rtm.api.domain.model.WMCategory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.List;
-
-@RequestMapping("/categories")
-public interface WMCategoryApi
+@RequestMapping("/sync")
+public interface WMSyncApi 
 {
-	@GetMapping("/sync")
+    @GetMapping
 	@ResponseStatus( HttpStatus.OK )
-	String syncCategories();
+	String sync();
 }

@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping("/sync")
+@RequestMapping("/data")
 public interface WMDataApi 
 {
-    @GetMapping
+    @GetMapping("/sync")
     @ResponseStatus(HttpStatus.OK)
-    String syncDB();
+    String syncData();
 }
