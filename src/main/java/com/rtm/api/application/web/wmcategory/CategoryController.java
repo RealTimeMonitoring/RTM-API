@@ -2,22 +2,21 @@ package com.rtm.api.application.web.wmcategory;
 
 import com.rtm.api.domain.model.WMCategory;
 import com.rtm.api.domain.service.WMCategoryService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
-public class WMCategoryController
+public class CategoryController
 	implements
-		WMCategoryApi
+		CategoryApi
 {
 	private final WMCategoryService service;
 
 	@Override
-	public String syncCategories()
+	public List<WMCategory> getCategories()
 	{
-		return service.sync();
+		return service.getCategories();
 	}
 }
