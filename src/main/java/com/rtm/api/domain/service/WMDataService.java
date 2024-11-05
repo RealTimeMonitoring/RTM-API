@@ -1,6 +1,7 @@
 package com.rtm.api.domain.service;
 
 import com.rtm.api.application.dto.request.WMDataDTO;
+import com.rtm.api.application.dto.response.WMDataResponseDTO;
 import com.rtm.api.domain.mapper.WMDataMapper;
 import com.rtm.api.domain.model.WMData;
 import com.rtm.api.infra.repository.WMDataRepository;
@@ -24,6 +25,7 @@ public class WMDataService
     private final RestTemplate restTemplate;
     private final WMDataRepository wMDataRepository;
     private final OffsetService offsetService;
+    private final WMDataMapper dataMapper = Mappers.getMapper( WMDataMapper.class );
     
     public String sync() 
     {
@@ -73,5 +75,10 @@ public class WMDataService
     public List<WMData> getValues()
     {
         return wMDataRepository.findAll();
+    }
+    
+    public List<WMDataResponseDTO> findAll( Integer offset, Integer limit ) 
+    {
+      return wMDataRepository.findAll().stream().skip( offset ).limit( limit ).map( dataMapper::entityToResponseDTO ).toList();
     }
 }
