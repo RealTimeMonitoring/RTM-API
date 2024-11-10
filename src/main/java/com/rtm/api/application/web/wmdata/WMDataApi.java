@@ -14,7 +14,7 @@ public interface WMDataApi
 {
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    List<WMDataResponseDTO> getData(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit);
+    List<WMDataResponseDTO> getData(@RequestParam() Integer page, @RequestParam() Integer size);
     
     
 }

@@ -3,6 +3,7 @@ package com.rtm.api.domain.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rtm.api.application.dto.request.WMCategoryDTO;
+import com.rtm.api.application.dto.response.WMCategoryResponse;
 import com.rtm.api.domain.mapper.WMCategoryMapper;
 import com.rtm.api.domain.model.WMCategory;
 import com.rtm.api.infra.repository.WMCategoryRepository;
@@ -49,8 +50,8 @@ public class WMCategoryService
 		}
 	}
 	
-	public List<WMCategory> getCategories()
+	public List<WMCategoryResponse> getCategories()
 	{
-		return categoryRepository.findAll();
+		return categoryRepository.findAll().stream().map(wmCategoryMapper::entityToDto).toList();
 	}
 }
