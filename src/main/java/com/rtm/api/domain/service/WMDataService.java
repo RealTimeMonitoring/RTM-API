@@ -108,4 +108,35 @@ public class WMDataService {
                                                   : wmCategoryMapper.entityToDto( category ) );
                 } ).toList();
     }
+    
+    public List<WMDataResponseDTO> findAll()
+    {
+        Map<Long, WMCategory> wmCategoryMap = wmCategoryRepository.findAll().stream().collect( Collectors.toMap( WMCategory::getId, c -> c ) );
+        
+         return wMDataRepository.findAll().stream().map( wmData -> 
+                {
+                    String productId = wmData.getProductId();
+                    WMCategory category = null;
+                    
+                    try 
+                    {
+                        category = wmCategoryMap.get( Long.parseLong( productId ) );
+                    }
+                    
+                    catch ( Exception e ) 
+                    {
+                        System.out.println( "Wolf ainda não limpou o db, ta cheio de lixo..." );
+                    }
+                    
+                    return new WMDataResponseDTO( wmData.getId(),
+                                                  wmData.getVendorId(),
+                                                  wmData.getLatitude(),
+                                                  wmData.getLongitude(),
+                                                  wmData.getValue(),
+                                                  wmData.getDtInsert(),
+                                                  category == null ? null
+                                                  : wmCategoryMapper.entityToDto( category ) );
+                } ).toList();
+    }
+    
 }

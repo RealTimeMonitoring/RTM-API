@@ -16,5 +16,7 @@ public interface WMDataApi
     @ResponseStatus(HttpStatus.OK)
     List<WMDataResponseDTO> getData(@RequestParam() Integer page, @RequestParam() Integer size);
     
-    
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    List<WMDataResponseDTO> getAllData();
 }
