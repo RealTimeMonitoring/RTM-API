@@ -17,7 +17,7 @@ public interface DataApi
 {
     @GetMapping("/offset")
     @ResponseStatus(HttpStatus.OK)
-    List<DataResponseDTO> getData(@RequestParam() Integer page, @RequestParam() Integer size);
+    List<DataResponseDTO> getData(@RequestParam( name = "page") Integer page, @RequestParam( name = "size" ) Integer size);
     
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)

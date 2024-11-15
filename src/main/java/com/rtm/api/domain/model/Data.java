@@ -43,6 +43,10 @@ public class Data
     protected void onCreate()
     {
         dtInsert = LocalDateTime.now();
-        vendorId = "6018590627095";
+        
+        if ( vendorId != null && vendorId.isBlank() )
+        {
+            vendorId = "6018590627095";
+        }
     }
 }
