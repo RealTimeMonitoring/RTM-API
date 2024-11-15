@@ -1,7 +1,7 @@
 package com.rtm.api.application.web.wmcategory;
 
-import com.rtm.api.application.dto.response.WMCategoryResponse;
-import com.rtm.api.domain.model.WMCategory;
+import com.rtm.api.application.dto.response.CategoryResponseDTO;
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,5 +13,5 @@ public interface CategoryApi
 {
 	@GetMapping()
 	@ResponseStatus( HttpStatus.OK )
-	List<WMCategoryResponse> getCategories();
+	List<CategoryResponseDTO> getCategories();
 }

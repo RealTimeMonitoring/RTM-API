@@ -1,8 +1,7 @@
 package com.rtm.api.application.web.wmcategory;
 
-import com.rtm.api.application.dto.response.WMCategoryResponse;
-import com.rtm.api.domain.model.WMCategory;
-import com.rtm.api.domain.service.WMCategoryService;
+import com.rtm.api.application.dto.response.CategoryResponseDTO;
+import com.rtm.api.domain.service.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,10 +12,10 @@ public class CategoryController
 	implements
 		CategoryApi
 {
-	private final WMCategoryService service;
+	private final CategoryService service;
 
 	@Override
-	public List<WMCategoryResponse> getCategories()
+	public List<CategoryResponseDTO> getCategories()
 	{
 		return service.getCategories();
 	}

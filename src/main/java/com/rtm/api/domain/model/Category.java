@@ -10,24 +10,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class WMData 
+public class Category
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private String vendorId;
-    private String productId;
-    private String latitude;
-    private String longitude;
-    @Column(columnDefinition = "TEXT")
-    private String value;
-    private LocalDateTime dtInsert;
+	@Id
+	@GeneratedValue( strategy = GenerationType.IDENTITY )
+	private Long id;
+
+	private Long productId;
+	@Column(columnDefinition = "TEXT")
+	private String description;
+	private String type;
+	private String example;
+	private String validateExpression;
 }
