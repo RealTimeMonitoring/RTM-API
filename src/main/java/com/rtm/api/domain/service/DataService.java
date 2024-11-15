@@ -45,7 +45,7 @@ public class DataService {
     {
          try 
          {
-             System.out.println( dataRepository.save( dataMapper.dtoToEntity(dto) ) ); 
+             dataRepository.save( dataMapper.dtoToEntity(dto) ); 
          }
          
          catch ( Exception e )

@@ -36,13 +36,14 @@ public class Data
     @Column(length = 4000)
     private String description = "";
     @Enumerated(EnumType.STRING)
-    private RegisterStatus status = RegisterStatus.OPEN;
+    private RegisterStatus status;
     private LocalDateTime dtInsert;
     
     @PrePersist
     protected void onCreate()
     {
         dtInsert = LocalDateTime.now();
+        status = RegisterStatus.OPEN;
         
         if ( vendorId != null && vendorId.isBlank() )
         {
