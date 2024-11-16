@@ -5,6 +5,7 @@ import com.rtm.api.application.dto.response.DataResponseDTO;
 import com.rtm.api.domain.service.DataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class DataController implements DataApi
     @Override
     public List<DataResponseDTO> getData(Integer page, Integer size ) 
     {
-        return dataService.findAll( PageRequest.of( page, size ) );    
+        return dataService.findAll( PageRequest.of( page, size, Sort.by( Sort.Direction.DESC, "id" )) );    
     }
     
     @Override
