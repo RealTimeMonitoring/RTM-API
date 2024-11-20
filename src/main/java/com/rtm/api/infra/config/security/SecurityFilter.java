@@ -1,6 +1,8 @@
 package com.rtm.api.infra.config.security;
 
+import com.rtm.api.domain.exception.InvalidCredentialsException;
 import com.rtm.api.domain.exception.NotFoundException;
+import com.rtm.api.domain.exception.TokenBlacklistedException;
 import com.rtm.api.infra.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,23 +26,39 @@ public class SecurityFilter
 {
     private final TokenService tokenService;
     private final UserRepository userRepository;
+    private final TokenBlackListService tokenBlackListService;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException 
     {
-        String token = recoverToken( request );
-        String login = tokenService.validateToken( token );
-        
-        if ( login != null )
+        try 
         {
-            var user = userRepository.findByEmail( login ).orElseThrow( () -> new NotFoundException( "User not found" ) );
-            var authority = Collections.singletonList( new SimpleGrantedAuthority( "ROLE_USER") ); // NÃO NECESSITAMOS DE CONTROLE DE ROLES
-            var authentication = new UsernamePasswordAuthenticationToken( user, null, authority );
-            
-            SecurityContextHolder.getContext().setAuthentication( authentication );
-        }
+            String token = recoverToken( request );
+            String login = tokenService.validateToken( token );
         
-        filterChain.doFilter( request, response );   
+            if ( tokenBlackListService.isBlacklisted( token ) )
+            {
+                throw new TokenBlacklistedException( "The token is invalid or has been revoked" );
+            }
+            
+            if ( login != null )
+            {
+                var user = userRepository.findByEmail( login ).orElseThrow( () -> new NotFoundException( "User not found" ) );
+                var authority = Collections.singletonList( new SimpleGrantedAuthority( "ROLE_USER") ); // NÃO NECESSITAMOS DE CONTROLE DE ROLES
+                var authentication = new UsernamePasswordAuthenticationToken( user, null, authority );
+                
+                SecurityContextHolder.getContext().setAuthentication( authentication );
+            }
+            
+            filterChain.doFilter( request, response );   
+        }
+    
+        catch ( TokenBlacklistedException ex ) 
+        {
+            response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
+            response.getWriter().write( "{\"message\": \"" + ex.getMessage() + "\"}" );
+            response.setContentType( "application/json" );
+        }
     }
     
     private String recoverToken( HttpServletRequest request )

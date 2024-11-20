@@ -14,4 +14,8 @@ public interface CategoryApi
 	@GetMapping()
 	@ResponseStatus( HttpStatus.OK )
 	List<CategoryResponseDTO> getCategories();
+	
+	@GetMapping("/heatmap")
+	@ResponseStatus( HttpStatus.OK )
+	List<CategoryResponseDTO> getCategoriesHeatMap();
 }

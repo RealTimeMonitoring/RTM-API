@@ -1,5 +1,7 @@
 package com.rtm.api.infra.config.security;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +24,14 @@ public class SecurityConfiguration
     private final SecurityFilter securityFilter;
     
      private static final String[] PERMITTED_PATTERNS = {
-       "/auth/**"
+       "/auth/**",
+       "/error",
+       "/data/heatmap",
+       "/category/heatmap",
     };
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
+    public SecurityFilterChain securityFilterChain(HttpSecurity http , TokenBlackListService blacklist ) throws Exception
     {
         http.csrf( AbstractHttpConfigurer::disable )
                 .sessionManagement( sessionManagement -> sessionManagement.sessionCreationPolicy( SessionCreationPolicy.STATELESS ) )
@@ -34,6 +39,18 @@ public class SecurityConfiguration
                                                             .permitAll()
                                                             .anyRequest()
                                                             .authenticated() )
+                .logout( logout -> logout.logoutUrl( "/auth/logout" )
+                                         .logoutSuccessHandler( ( request, response, authentication ) -> {
+                                                                  String token = this.recoverToken( request );
+                                                                  
+                                                                  if ( token != null )
+                                                                  {
+                                                                    blacklist.addToBlacklist( token );
+                                                                  }
+                                                                  
+                                                                  response.setStatus( HttpServletResponse.SC_OK );
+                                                                  response.getWriter().write( "Logout bem-sucedido!" );
+                                                              } ) )
                 .addFilterBefore( securityFilter, UsernamePasswordAuthenticationFilter.class );
                 
         return http.build();
@@ -49,5 +66,17 @@ public class SecurityConfiguration
     public AuthenticationManager authenticationManager( AuthenticationConfiguration authenticationConfiguration ) throws Exception 
     {
         return  authenticationConfiguration.getAuthenticationManager();
+    }
+    
+      private String recoverToken( HttpServletRequest request )
+    {
+        String authorization = request.getHeader( "Authorization" );
+        
+        if ( authorization == null )
+        {
+            return null;
+        }
+        
+        return authorization.replace( "Bearer ", "" );
     }
 }

@@ -28,6 +28,11 @@ public class DataController implements DataApi
     }
     
     @Override
+    public List<DataResponseDTO> getAllDataHeatMap() {
+        return dataService.findAll();
+    }
+    
+    @Override
     public void save(DataRequestDTO dto) 
     {
         dataService.save( dto );    

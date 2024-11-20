@@ -23,6 +23,10 @@ public interface DataApi
     @ResponseStatus(HttpStatus.OK)
     List<DataResponseDTO> getAllData();
     
+    @GetMapping("/heatmap")
+    @ResponseStatus(HttpStatus.OK)
+    List<DataResponseDTO> getAllDataHeatMap();
+    
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     void save(@RequestBody DataRequestDTO dto);

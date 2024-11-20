@@ -19,4 +19,10 @@ public class CategoryController
 	{
 		return service.getCategories();
 	}
+	
+	@Override
+	public List<CategoryResponseDTO> getCategoriesHeatMap() 
+	{
+		return service.getCategories();
+	}
 }
