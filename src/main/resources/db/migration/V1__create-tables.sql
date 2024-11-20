@@ -1,4 +1,4 @@
-CREATE TABLE category
+CREATE TABLE IF NOT EXISTS category
 (
     id                  BIGINT AUTO_INCREMENT NOT NULL,
     product_id          BIGINT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE category
     CONSTRAINT pk_category PRIMARY KEY (id)
 );
 
-CREATE TABLE data
+CREATE TABLE IF NOT EXISTS data
 (
     id            BIGINT AUTO_INCREMENT NOT NULL,
     vendor_id     VARCHAR(255) NULL,
@@ -23,7 +23,7 @@ CREATE TABLE data
     CONSTRAINT pk_data PRIMARY KEY (id)
 );
 
-CREATE TABLE offset_entity
+CREATE TABLE IF NOT EXISTS offset_entity
 (
     id     BIGINT AUTO_INCREMENT NOT NULL,
     offset INT NOT NULL,
