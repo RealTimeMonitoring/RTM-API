@@ -14,9 +14,9 @@ public interface AuthApi
 {
     @PostMapping("/login")
     @ResponseStatus( HttpStatus.OK )
-    TokenResponseDTO authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO);
+    TokenResponseDTO authenticateUser( @RequestBody LoginRequestDTO loginRequestDTO );
     
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    TokenResponseDTO registerUser(@RequestBody RegisterRequestDTO registerRequestDTO);
+    TokenResponseDTO registerUser( @RequestBody RegisterRequestDTO registerRequestDTO );
 }

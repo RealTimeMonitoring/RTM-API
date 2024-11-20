@@ -5,9 +5,9 @@ import com.rtm.api.application.dto.request.RegisterRequestDTO;
 import com.rtm.api.application.dto.response.TokenResponseDTO;
 import com.rtm.api.domain.service.AuthService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @AllArgsConstructor
 public class AuthController implements AuthApi 
 {

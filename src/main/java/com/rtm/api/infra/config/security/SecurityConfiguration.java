@@ -22,8 +22,7 @@ public class SecurityConfiguration
     private final SecurityFilter securityFilter;
     
      private static final String[] PERMITTED_PATTERNS = {
-       "/auth/login",
-       "/auth/register",
+       "/auth/**"
     };
     
     @Bean
@@ -31,7 +30,10 @@ public class SecurityConfiguration
     {
         http.csrf( AbstractHttpConfigurer::disable )
                 .sessionManagement( sessionManagement -> sessionManagement.sessionCreationPolicy( SessionCreationPolicy.STATELESS ) )
-                .authorizeHttpRequests( requests -> requests.requestMatchers( PERMITTED_PATTERNS ).permitAll().anyRequest().permitAll())
+                .authorizeHttpRequests( requests -> requests.requestMatchers( PERMITTED_PATTERNS )
+                                                            .permitAll()
+                                                            .anyRequest()
+                                                            .authenticated() )
                 .addFilterBefore( securityFilter, UsernamePasswordAuthenticationFilter.class );
                 
         return http.build();

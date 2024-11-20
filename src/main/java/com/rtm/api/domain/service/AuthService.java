@@ -54,7 +54,7 @@ public class AuthService
         }
         
         User user = new User();
-        user.setName( registerRequestDTO.username() );
+        user.setName( registerRequestDTO.name() );
         user.setEmail( registerRequestDTO.email() );
         user.setPassword( passwordEncoder.encode( registerRequestDTO.password() ) );
         
