@@ -15,6 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +38,7 @@ public class SecurityConfiguration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http , TokenBlackListService blacklist ) throws Exception
     {
-        http.csrf( AbstractHttpConfigurer::disable )
+        http.csrf( AbstractHttpConfigurer::disable ).cors( c -> c.configurationSource(corsConfigurationSource()))
                 .sessionManagement( sessionManagement -> sessionManagement.sessionCreationPolicy( SessionCreationPolicy.STATELESS ) )
                 .authorizeHttpRequests( requests -> requests.requestMatchers( PERMITTED_PATTERNS )
                                                             .permitAll()
@@ -67,8 +72,25 @@ public class SecurityConfiguration
     {
         return  authenticationConfiguration.getAuthenticationManager();
     }
+
+   /**
+    * Se continuar dando ruim, coloca o ip ali http://192.168.0.x:xxxx
+    **/
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource()
+    {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins( List.of( "*" ) );
+        configuration.setAllowedMethods( Arrays.asList( "GET", "POST", "PUT", "DELETE", "OPTIONS" ) );
+        configuration.setAllowedHeaders( List.of( "*" ) );
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source; 
+    }
     
-      private String recoverToken( HttpServletRequest request )
+    private String recoverToken( HttpServletRequest request )
     {
         String authorization = request.getHeader( "Authorization" );
         

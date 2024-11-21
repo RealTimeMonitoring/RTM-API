@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class TokenBlackListService 
 {
-
     private final Set<String> blacklist = ConcurrentHashMap.newKeySet();
  
     public void addToBlacklist( String token ) 
@@ -18,6 +17,6 @@ public class TokenBlackListService
     
     public boolean isBlacklisted( String token ) 
     {
-        return blacklist.contains( token );
+        return !blacklist.isEmpty() && blacklist.contains(token);
     }
 }
