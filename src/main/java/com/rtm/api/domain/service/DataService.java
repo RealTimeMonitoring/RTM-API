@@ -32,9 +32,13 @@ public class DataService
     private final CategoryRepository categoryRepository;
     private final DataRepository dataRepository;
     
-    public List<DataResponseDTO> findAll( Pageable pageable )
+    public List<DataResponseDTO> findAll( Pageable pageable, DataFilterDTO filter )
     {
-        return mapDataToResponseDTO( wMDataRepository.findAll( pageable ).stream().toList(), loadCategoryMap() );
+        List<Data> data = wMDataRepository.findAll( DataSpecification.filterBy( filter ), pageable )
+                                          .stream()
+                                          .toList();
+                                          
+        return mapDataToResponseDTO( data, loadCategoryMap() );
     }
     
     public List<DataResponseDTO> findAll()

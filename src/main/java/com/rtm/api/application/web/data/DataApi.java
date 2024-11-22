@@ -19,11 +19,17 @@ public interface DataApi
 {
     @GetMapping("/offset")
     @ResponseStatus( HttpStatus.OK )
-    List<DataResponseDTO> getData(@RequestParam( name = "page") Integer page, @RequestParam( name = "size" ) Integer size);
+    List<DataResponseDTO> getData( @RequestParam( name = "page") Integer page, 
+                                   @RequestParam( name = "size" ) Integer size,
+                                   @ParameterObject DataFilterDTO filter );
     
     @GetMapping("/all")
     @ResponseStatus( HttpStatus.OK )
     List<DataResponseDTO> getAllData();
+    
+    @GetMapping("/all/filter")
+    @ResponseStatus( HttpStatus.OK )
+    List<DataResponseDTO> getDataFilter( @ParameterObject DataFilterDTO filter );
     
     @GetMapping("/heatmap")
     @ResponseStatus( HttpStatus.OK )
@@ -32,9 +38,4 @@ public interface DataApi
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     void save(@RequestBody DataRequestDTO dto);
-    
-    @GetMapping("/filter")
-    @ResponseStatus( HttpStatus.OK )
-    List<DataResponseDTO> getDataFilter( @ParameterObject DataFilterDTO filter );
-    
 }

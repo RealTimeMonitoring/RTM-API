@@ -18,9 +18,9 @@ public class DataController implements DataApi
     private final DataService dataService;
     
     @Override
-    public List<DataResponseDTO> getData(Integer page, Integer size ) 
+    public List<DataResponseDTO> getData(Integer page, Integer size, DataFilterDTO filter ) 
     {
-        return dataService.findAll( PageRequest.of( page, size, Sort.by( Sort.Direction.DESC, "id" )) );    
+        return dataService.findAll( PageRequest.of( page, size, Sort.by( Sort.Direction.DESC, "id" ) ), filter );    
     }
     
     @Override
