@@ -1,7 +1,9 @@
-package com.rtm.api.application.web.wmdata;
+package com.rtm.api.application.web.data;
 
+import com.rtm.api.application.dto.filter.DataFilterDTO;
 import com.rtm.api.application.dto.request.DataRequestDTO;
 import com.rtm.api.application.dto.response.DataResponseDTO;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,18 +18,23 @@ import java.util.List;
 public interface DataApi 
 {
     @GetMapping("/offset")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus( HttpStatus.OK )
     List<DataResponseDTO> getData(@RequestParam( name = "page") Integer page, @RequestParam( name = "size" ) Integer size);
     
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus( HttpStatus.OK )
     List<DataResponseDTO> getAllData();
     
     @GetMapping("/heatmap")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus( HttpStatus.OK )
     List<DataResponseDTO> getAllDataHeatMap();
     
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     void save(@RequestBody DataRequestDTO dto);
+    
+    @GetMapping("/filter")
+    @ResponseStatus( HttpStatus.OK )
+    List<DataResponseDTO> getDataFilter( @ParameterObject DataFilterDTO filter );
+    
 }

@@ -45,7 +45,7 @@ public class Data
         dtInsert = LocalDateTime.now();
         status = RegisterStatus.OPEN;
         
-        if ( vendorId != null && vendorId.isBlank() )
+        if ( vendorId == null )
         {
             vendorId = "6018590627095";
         }

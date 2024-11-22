@@ -1,6 +1,8 @@
 package com.rtm.api.domain.service;
 
+import com.rtm.api.application.dto.filter.DataFilterDTO;
 import com.rtm.api.application.dto.request.DataRequestDTO;
+import com.rtm.api.application.dto.response.CategoryResponseDTO;
 import com.rtm.api.application.dto.response.DataResponseDTO;
 import com.rtm.api.domain.mapper.CategoryMapper;
 import com.rtm.api.domain.mapper.DataMapper;
@@ -8,9 +10,11 @@ import com.rtm.api.domain.model.Category;
 import com.rtm.api.domain.model.Data;
 import com.rtm.api.infra.repository.CategoryRepository;
 import com.rtm.api.infra.repository.DataRepository;
+import com.rtm.api.infra.repository.specification.DataSpecification;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +23,8 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DataService {
+public class DataService 
+{
     private final CategoryMapper categoryMapper = Mappers.getMapper(CategoryMapper.class);
     private final DataMapper dataMapper = Mappers.getMapper(DataMapper.class);
     
@@ -29,23 +34,19 @@ public class DataService {
     
     public List<DataResponseDTO> findAll( Pageable pageable )
     {
-        Map<Long, Category> wmCategoryMap = loadCategoryMap();
-        
-        return mapDataToResponseDTO( wMDataRepository.findAll( pageable ).stream().toList(), wmCategoryMap );
+        return mapDataToResponseDTO( wMDataRepository.findAll( pageable ).stream().toList(), loadCategoryMap() );
     }
     
     public List<DataResponseDTO> findAll()
     {
-        Map<Long, Category> wmCategoryMap = loadCategoryMap();
-        
-        return mapDataToResponseDTO( dataRepository.findAll(), wmCategoryMap );
+        return mapDataToResponseDTO( dataRepository.findAll(), loadCategoryMap() );
     }
     
     public void save( DataRequestDTO dto ) 
     {
          try 
          {
-             dataRepository.save( dataMapper.dtoToEntity(dto) ); 
+             dataRepository.save( dataMapper.toEntity( dto ) ); 
          }
          
          catch ( Exception e )
@@ -54,11 +55,9 @@ public class DataService {
          }
     }
     
-    private Map<Long, Category> loadCategoryMap() 
+    public List<DataResponseDTO> getFilteredData( DataFilterDTO filter ) 
     {
-        return categoryRepository.findAll()
-                                 .stream()
-                                 .collect( Collectors.toMap( Category::getId, c -> c ) );
+         return mapDataToResponseDTO( dataRepository.findAll( DataSpecification.filterBy( filter), Sort.by( Sort.Direction.DESC, "id" ) ), loadCategoryMap() );
     }
     
    private List<DataResponseDTO> mapDataToResponseDTO( List<Data> dataList, Map<Long, Category> wmCategoryMap ) 
@@ -92,5 +91,12 @@ public class DataService {
                                                            );
                             } )
                        .toList();
+   }
+   
+   private Map<Long, Category> loadCategoryMap() 
+   {
+       return categoryRepository.findAll()
+                                .stream()
+                                .collect( Collectors.toMap( Category::getId, c -> c ) );
    }
 }

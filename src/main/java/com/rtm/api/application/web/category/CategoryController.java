@@ -1,4 +1,4 @@
-package com.rtm.api.application.web.wmcategory;
+package com.rtm.api.application.web.category;
 
 import com.rtm.api.application.dto.response.CategoryResponseDTO;
 import com.rtm.api.domain.service.CategoryService;

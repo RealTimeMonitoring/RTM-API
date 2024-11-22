@@ -10,7 +10,7 @@ public record DataResponseDTO( Long id,
                                String longitude,
                                String value,
                                String description,
-                               RegisterStatus registerStatus,
+                               RegisterStatus status,
                                LocalDateTime dtInsert,
                                CategoryResponseDTO category ) {
 }

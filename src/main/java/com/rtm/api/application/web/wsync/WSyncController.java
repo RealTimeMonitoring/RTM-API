@@ -1,4 +1,4 @@
-package com.rtm.api.application.web.wmsync;
+package com.rtm.api.application.web.wsync;
 
 import com.rtm.api.domain.service.SyncService;
 import lombok.RequiredArgsConstructor;

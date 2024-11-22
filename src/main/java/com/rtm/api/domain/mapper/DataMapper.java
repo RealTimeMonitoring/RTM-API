@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 @Mapper(config = BaseMapperConfig.class, componentModel = "spring")
 public interface DataMapper 
 {
-    Data dtoToEntity( DataRequestDTO dto );
+    Data toEntity( DataRequestDTO dto );
     
-    DataResponseDTO EntityToDTO (Data dto );
+    DataResponseDTO toDto (Data dto );
 }

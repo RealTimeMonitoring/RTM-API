@@ -1,5 +1,6 @@
-package com.rtm.api.application.web.wmdata;
+package com.rtm.api.application.web.data;
 
+import com.rtm.api.application.dto.filter.DataFilterDTO;
 import com.rtm.api.application.dto.request.DataRequestDTO;
 import com.rtm.api.application.dto.response.DataResponseDTO;
 import com.rtm.api.domain.service.DataService;
@@ -36,5 +37,11 @@ public class DataController implements DataApi
     public void save(DataRequestDTO dto) 
     {
         dataService.save( dto );    
+    }
+    
+    @Override
+    public List<DataResponseDTO> getDataFilter( DataFilterDTO filter ) 
+    {
+        return dataService.getFilteredData( filter );
     }
 }
