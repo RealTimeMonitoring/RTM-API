@@ -36,7 +36,7 @@ public class SecurityFilter
             String token = recoverToken( request );
             String login = tokenService.validateToken( token );
         
-            if ( tokenBlackListService.isBlacklisted( token ) )
+            if ( token != null && tokenBlackListService.isBlacklisted( token ) )
             {
                 throw new TokenBlacklistedException( "The token is invalid or has been revoked" );
             }
