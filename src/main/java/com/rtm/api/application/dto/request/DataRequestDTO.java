@@ -7,10 +7,10 @@ import lombok.Value;
 
 import java.io.Serializable;
 
-public record DataRequestDTO( @JsonProperty("productid") String productId,  
+public record DataRequestDTO( Long id,
+                              String productId,  
                               String latitude,  
                               String longitude,  
                               String value,  
-                              String description,  
-                              RegisterStatus status
-                            ){}
+                              String description,
+                              RegisterStatus status){}

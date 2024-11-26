@@ -1,8 +1,7 @@
 package com.rtm.api.application.dto.request;
 
 
-public record WDataRequestDTO(String id,
-                              String vendorid,
+public record WDataRequestDTO(String vendorid,
                               String productid,
                               String latitude,
                               String longitude,

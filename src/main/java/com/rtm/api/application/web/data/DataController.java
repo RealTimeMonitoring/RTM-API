@@ -40,6 +40,12 @@ public class DataController implements DataApi
     }
     
     @Override
+    public void update(DataRequestDTO dto) 
+    {
+        dataService.updateData( dto );   
+    }
+    
+    @Override
     public List<DataResponseDTO> getDataFilter( DataFilterDTO filter ) 
     {
         return dataService.getFilteredData( filter );

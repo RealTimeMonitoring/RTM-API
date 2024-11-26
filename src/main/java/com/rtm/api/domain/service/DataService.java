@@ -8,9 +8,11 @@ import com.rtm.api.domain.mapper.CategoryMapper;
 import com.rtm.api.domain.mapper.DataMapper;
 import com.rtm.api.domain.model.Category;
 import com.rtm.api.domain.model.Data;
+import com.rtm.api.domain.utils.EntityUtilities;
 import com.rtm.api.infra.repository.CategoryRepository;
 import com.rtm.api.infra.repository.DataRepository;
 import com.rtm.api.infra.repository.specification.DataSpecification;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ public class DataService
     private final DataRepository wMDataRepository;
     private final CategoryRepository categoryRepository;
     private final DataRepository dataRepository;
+    private final EntityUtilities entityUtilities;
     
     public List<DataResponseDTO> findAll( Pageable pageable, DataFilterDTO filter )
     {
@@ -103,4 +106,12 @@ public class DataService
                                 .stream()
                                 .collect( Collectors.toMap( Category::getId, c -> c ) );
    }
+    
+    public void updateData( DataRequestDTO dto ) 
+    {
+        Data data = entityUtilities.getDataEntity( dto.id() );
+        dataMapper.updateByDto( dto, data );
+        
+        dataRepository.save( data );
+    }
 }
