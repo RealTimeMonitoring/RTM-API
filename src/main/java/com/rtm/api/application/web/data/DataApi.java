@@ -33,7 +33,7 @@ public interface DataApi
     
     @GetMapping("/heatmap")
     @ResponseStatus( HttpStatus.OK )
-    List<DataResponseDTO> getAllDataHeatMap();
+    List<DataResponseDTO> getAllDataHeatMap( @ParameterObject DataFilterDTO filter );
     
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
