@@ -29,8 +29,8 @@ public class DataController implements DataApi
     }
     
     @Override
-    public List<DataResponseDTO> getAllDataHeatMap() {
-        return dataService.findAll();
+    public List<DataResponseDTO> getAllDataHeatMap( DataFilterDTO filter ) {
+        return dataService.getFilteredData( filter );
     }
     
     @Override
