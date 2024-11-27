@@ -31,8 +31,8 @@ public class SecurityConfiguration
      private static final String[] PERMITTED_PATTERNS = {
        "/auth/**",
        "/error",
-       "/data/heatmap",
-       "/category/heatmap",
+       "/data/permit",
+       "/category/permit",
     };
     
     @Bean

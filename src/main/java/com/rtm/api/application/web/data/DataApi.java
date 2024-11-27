@@ -32,11 +32,11 @@ public interface DataApi
     @ResponseStatus( HttpStatus.OK )
     List<DataResponseDTO> getDataFilter( @ParameterObject DataFilterDTO filter );
     
-    @GetMapping("/heatmap")
+    @GetMapping("/permit")
     @ResponseStatus( HttpStatus.OK )
-    List<DataResponseDTO> getAllDataHeatMap( @ParameterObject DataFilterDTO filter );
+    List<DataResponseDTO> getPermittedData( @ParameterObject DataFilterDTO filter );
     
-    @PostMapping
+    @PostMapping( "/permit" )
     @ResponseStatus(HttpStatus.CREATED)
     void save(@RequestBody DataRequestDTO dto);
     

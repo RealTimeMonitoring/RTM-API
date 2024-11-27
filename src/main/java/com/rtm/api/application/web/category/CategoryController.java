@@ -21,7 +21,7 @@ public class CategoryController
 	}
 	
 	@Override
-	public List<CategoryResponseDTO> getCategoriesHeatMap() 
+	public List<CategoryResponseDTO> getPermittedCategories()
 	{
 		return service.getCategories();
 	}

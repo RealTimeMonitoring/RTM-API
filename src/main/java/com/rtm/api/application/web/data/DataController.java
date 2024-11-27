@@ -29,12 +29,12 @@ public class DataController implements DataApi
     }
     
     @Override
-    public List<DataResponseDTO> getAllDataHeatMap( DataFilterDTO filter ) {
+    public List<DataResponseDTO> getPermittedData( DataFilterDTO filter ) {
         return dataService.getFilteredData( filter );
     }
     
     @Override
-    public void save(DataRequestDTO dto) 
+    public void save(DataRequestDTO dto)
     {
         dataService.save( dto );    
     }
