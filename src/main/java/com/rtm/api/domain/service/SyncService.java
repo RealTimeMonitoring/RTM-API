@@ -90,6 +90,13 @@ public class SyncService
                     offsetService.saveLastOffset( offset );
                 }
                 
+                else if ( values.size() < WUrlUtilities.LIMIT )
+                {
+                    offset += values.size();
+                    
+                    offsetService.saveLastOffset( offset );
+                }
+                
                 else 
                 {
                     hasData = false;
